@@ -1,0 +1,25 @@
+{
+  "name": "subscribebackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-koa": "^2.1.0",
+    "graphql": "^14.0.2",
+    "graphql-playground-html": "^1.6.4",
+    "jsonwebtoken": "^8.3.0",
+    "koa": "^2.6.1",
+    "koa-graphql": "^0.7.5",
+    "koa-mount": "^4.0.0",
+    "pg": "^7.6.0",
+    "ramda": "^0.25.0",
+    "ts-node": "^7.0.1",
+    "typeorm": "^0.2.8",
+    "typescript": "^3.1.3"
+  }
+}

@@ -1,0 +1,33 @@
+type User {
+    id: ID!,
+    username: String!
+    encryptedPassword: String
+}
+type loginUser {
+    id: ID!,
+    username: String!
+    jwt: String
+}
+type Code {
+    id: ID!,
+    code: Int
+}
+
+type Modify {
+    TF: Boolean!,
+    Message: String
+}
+
+
+type Query {
+    users: [User]
+    jwt: loginUser
+    # code(id: String!): Code!
+}
+
+# type Mutation {
+#     signin(username: String!, password: String!): loginUser!
+#     signup(username: String!, password: String!, code: Int!): Modify!
+#     cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
+#     dUser(username: String!): Modify!
+# }

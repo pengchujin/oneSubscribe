@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es5",
+      "es6",
+      "esnext.asynciterable",
+      "es2017"
+    ],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "lib",
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*",
+    "configs/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
