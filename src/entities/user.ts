@@ -2,8 +2,11 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  Index
+  Index,
+  OneToMany
 } from "typeorm";
+import { Node } from "./node";
+import { Subscribe } from "./subscribe";
 
 @Entity("user")
 export class User {
@@ -16,4 +19,10 @@ export class User {
   username: string;
 
   @Column("text") encryptedPassword: string;
+
+  @OneToMany(type => Node, node => node.user) 
+  nodes: Node[]
+
+  @OneToMany(type => Subscribe, subscribe => subscribe.user) 
+  subscribes: Subscribe[]
 }
