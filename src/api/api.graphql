@@ -1,3 +1,9 @@
+enum nodeType {
+  SS,
+  SSR,
+  V2RAY
+}
+
 type User {
   id: ID!,
   username: String!
@@ -13,7 +19,7 @@ type Code {
   code: Int
 }
 
-type Modify {
+type Message {
   TF: Boolean!,
   Message: String
 }
@@ -25,7 +31,8 @@ type Query {
 
 type Mutation {
     signin(username: String!, password: String!): loginUser!
-    signup(username: String!, password: String!): Modify!
+    signup(username: String!, password: String!): Message!
+    addNode(type: nodeType!, nodeInfo: String! ): Message!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }

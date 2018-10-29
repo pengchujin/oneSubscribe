@@ -1,15 +1,18 @@
 import { User } from "../entities/user"
+import { Node } from "../entities/node"
 import * as bcrypt from "bcrypt"
 import * as Jwt from "jsonwebtoken"
 import * as config from "../../config"
 import { validationError } from "../util/errors"
+import { ensureUser } from "../util/authentication"
+import { from } from "apollo-link";
+let Message = {
+  TF: false,
+  Message: "something wrong"
+}
 // import * as R from "ramda"
-export async function signup(_obj, { username, password, code }, { db }) {
+export async function signup(_obj, { username, password }, { db }) {
   console.log('sign Uping')
-  let Message = {
-    TF: false,
-    Message: "something wrong"
-  }
   const repository = db.getRepository(User);
   const hash = bcrypt.hashSync(password, config.SALT_ROUNDS);
   let b = {
@@ -52,6 +55,44 @@ export async function signin(_obj, { username, password }, { db }) {
     });
   }
   return a
+}
+
+export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
+  let user = await ensureUser(db, jwt)
+  console.log(user, nodeInfo)
+  let testNode = {
+    "obfsParam" : "",
+    "weight" : 1540271438,
+    "allowInsecure" : false,
+    "title" : "香港GoogleCloud",
+    "host" : "hk1.qust.me",
+    "ota" : false,
+    "file" : "",
+    "uuid" : "40F5F639-3815-4DA4-A9D4-B508632183EC",
+    "method" : "chacha20",
+    "flag" : "US",
+    "obfs" : "plain",
+    "type" : "ShadowsocksR",
+    "user" : "",
+    "protoParam" : "",
+    "tls" : false,
+    "port" : 8888,
+    "proto" : "origin",
+    "password" : "oneisall",
+    "data" : "",
+    "ping" : 171
+  }
+  const nodeRepository = db.getRepository(Node);
+  const node = nodeRepository.create({
+    type: type,
+    info: nodeInfo,
+    // user: user
+  })
+  let Res = await nodeRepository.save(node)
+  return {
+    TF: true,
+    Message: Res
+  }
 }
 
 // export async function cPassword(_obj, { username, oPassword, nPassword }, { db }) {

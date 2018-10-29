@@ -14,13 +14,13 @@ export class Node {
   @PrimaryGeneratedColumn()
   id: Number
   
-  @Column()
+  @Column("enum", { enum: ["SSR", "V2RAY", "SS"], default: "SS" })
   type: String
 
-  @Column('jsonb')
-  info: any
+  @Column('')
+  info: string
 
-  @Column()
+  @Column({ default: 0 })
   serial: Number
 
   @ManyToOne(node => User, user => user.nodes) 
