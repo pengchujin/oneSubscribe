@@ -17,8 +17,8 @@ export class Node {
   @Column("enum", { enum: ["SSR", "V2RAY", "SS"], default: "SS" })
   type: String
 
-  @Column('')
-  info: string
+  @Column('jsonb')
+  info: any
 
   @Column({ default: 0 })
   serial: Number

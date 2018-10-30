@@ -88,10 +88,10 @@ export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
     info: nodeInfo,
     // user: user
   })
-  let Res = await nodeRepository.save(node)
+  await nodeRepository.save(node)
   return {
     TF: true,
-    Message: Res
+    Message: "123"
   }
 }
 

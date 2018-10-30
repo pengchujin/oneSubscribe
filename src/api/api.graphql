@@ -3,24 +3,35 @@ enum nodeType {
   SSR,
   V2RAY
 }
-
+input SSR {
+  title: String!
+  host: String!
+  method: String!
+  flag: String
+  obfs: String!
+  obfsParam: String!
+  proto: String!
+  protoParam: String!
+  port: Int!
+  password: String!
+}
 type User {
-  id: ID!,
+  id: ID!
   username: String!
   encryptedPassword: String
 }
 type loginUser {
-  id: ID!,
+  id: ID!
   username: String!
   jwt: String
 }
 type Code {
-  id: ID!,
+  id: ID!
   code: Int
 }
 
 type Message {
-  TF: Boolean!,
+  TF: Boolean!
   Message: String
 }
 
@@ -32,7 +43,7 @@ type Query {
 type Mutation {
     signin(username: String!, password: String!): loginUser!
     signup(username: String!, password: String!): Message!
-    addNode(type: nodeType!, nodeInfo: String! ): Message!
+    addNode(type: nodeType!, nodeInfo: SSR! ): Message!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }
