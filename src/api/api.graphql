@@ -44,6 +44,7 @@ type Mutation {
     signin(username: String!, password: String!): loginUser!
     signup(username: String!, password: String!): Message!
     addNode(type: nodeType!, nodeInfo: SSR! ): Message!
+    createSubscribe(nodes: [Int], name: String!): Message!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }

@@ -1,5 +1,6 @@
 import { User } from "../entities/user"
 import { Node } from "../entities/node"
+import { Subscribe } from "../entities/subscribe"
 import * as bcrypt from "bcrypt"
 import * as Jwt from "jsonwebtoken"
 import * as config from "../../config"
@@ -38,6 +39,23 @@ function authenticate(user, password) {
 export async function signin(_obj, { username, password }, { db }) {
   let a = { jwt: String, id: Number, username: String }
   const repository = db.getRepository(User);
+  // 
+  const subscribeRepository = db.getRepository(Subscribe)
+  let subscribe = await subscribeRepository.findOne({name: "He3"})
+  const nodes = await db
+    .getRepository(Node)
+    .createQueryBuilder("node")
+    .where("node.id = :id", {id: 3})
+    .leftJoinAndSelect("node.subscribes", "subcribe")
+    .getMany();
+  console.log(nodes)
+  // const nodeRepository = db.getRepository(Node);
+  // // const subscribeRepository = db.getRepository(Subscribe)
+  // // let subscribe = await subscribeRepository.findOne({name: "He3"})
+  // console.log(subscribe)
+  // let nodeTest = await nodeRepository.find({subscribes: subscribe})
+  // console.log(nodeTest)
+  // 
   const userSaved = await repository.findOne({ username: username })
   let TF = authenticate(userSaved, password)
   if (TF) {
@@ -58,43 +76,59 @@ export async function signin(_obj, { username, password }, { db }) {
 }
 
 export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
-  let user = await ensureUser(db, jwt)
+  const user = await ensureUser(db, jwt)
   console.log(user, nodeInfo)
-  let testNode = {
-    "obfsParam" : "",
-    "weight" : 1540271438,
-    "allowInsecure" : false,
-    "title" : "香港GoogleCloud",
-    "host" : "hk1.qust.me",
-    "ota" : false,
-    "file" : "",
-    "uuid" : "40F5F639-3815-4DA4-A9D4-B508632183EC",
-    "method" : "chacha20",
-    "flag" : "US",
-    "obfs" : "plain",
-    "type" : "ShadowsocksR",
-    "user" : "",
-    "protoParam" : "",
-    "tls" : false,
-    "port" : 8888,
-    "proto" : "origin",
-    "password" : "oneisall",
-    "data" : "",
-    "ping" : 171
-  }
   const nodeRepository = db.getRepository(Node);
   const node = nodeRepository.create({
     type: type,
     info: nodeInfo,
-    // user: user
+    user: user
   })
   await nodeRepository.save(node)
   return {
     TF: true,
-    Message: "123"
+    Message: "添加节点成功"
   }
 }
 
+export async function createSubscribe(_obj, { nodes, name }, { db, jwt }) {
+  const user = await ensureUser(db, jwt)
+  console.log(nodes)
+  const nodeRepository = db.getRepository(Node);
+  const subscribeRepository = db.getRepository(Subscribe)
+  if(!nodes) {
+    let subscribeNodes =  await nodeRepository.find({user: user})
+    console.log(subscribeNodes)
+    subscribeRepository.save({
+      name: name,
+      nodes: subscribeNodes,
+      user: user
+    })
+  } else {
+    let subscribeNodes = []
+    for (let node of nodes) {
+      let subscribeNode =  await nodeRepository.findOne({user: user, id: node})    
+      subscribeNodes.push(subscribeNode)
+    }
+    const subscribe = new Subscribe()
+    subscribe.name = name
+    subscribe.nodes = subscribeNodes
+    subscribe.user = user
+    // console.log(subscribe)
+    await subscribeRepository.save(subscribe)
+    // let nodeTest = await nodeRepository.find({subscribe: subscribe})
+    // console.log(nodeTest)
+    // subscribeRepository.save({
+    //   name: name,
+    //   nodes: subscribeNodes,
+    //   user: user
+    // })
+  }
+  return {
+    TF: true,
+    Message: "订阅创建成功"
+  }
+}
 // export async function cPassword(_obj, { username, oPassword, nPassword }, { db }) {
 //   let Result = false;
 //   let Message = '修改失败'

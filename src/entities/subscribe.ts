@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   Index,
   OneToMany,
-  ManyToOne
+  ManyToMany,
+  ManyToOne,
+  JoinTable
 } from "typeorm";
 import { Node } from "./node";
 import { User } from "./user";
@@ -18,7 +20,8 @@ export class Subscribe{
   @Column()
   name: String
 
-  @OneToMany(type => Node, node => node.subscribe) 
+  @ManyToMany(type => Node,  node => node.subscribes, {eager: true})
+  @JoinTable()
   nodes: Node[]
 
   @ManyToOne(subscribe => User, user => user.subscribes)

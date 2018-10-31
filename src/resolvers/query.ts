@@ -3,6 +3,9 @@ import * as R from "ramda"
 import { ensureUser } from "../util/authentication"
 
 export async function users(root, params, ctx) {
+  // test
+
+  // 
   console.log(typeof (ctx), "==================")
   const repository = ctx.db.getRepository(User)
   const users = await repository.find()

@@ -2,8 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  Index,
-  ManyToOne
+  ManyToMany,
+  ManyToOne,
+  JoinTable
 } from "typeorm"
 import { User } from "./user";
 import { Subscribe } from "./subscribe";
@@ -26,7 +27,6 @@ export class Node {
   @ManyToOne(node => User, user => user.nodes) 
   user: User
 
-  @ManyToOne(node => Subscribe, subscribe => subscribe.nodes) 
-  subscribe: Subscribe
-
+  @ManyToMany(node => Subscribe, subcribe => subcribe.nodes)
+  subscribes: Subscribe[]
 }
