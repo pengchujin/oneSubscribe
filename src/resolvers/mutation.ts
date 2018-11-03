@@ -110,19 +110,19 @@ export async function createSubscribe(_obj, { nodes, name }, { db, jwt }) {
       let subscribeNode =  await nodeRepository.findOne({user: user, id: node})    
       subscribeNodes.push(subscribeNode)
     }
-    const subscribe = new Subscribe()
-    subscribe.name = name
-    subscribe.nodes = subscribeNodes
-    subscribe.user = user
-    // console.log(subscribe)
-    await subscribeRepository.save(subscribe)
+    // const subscribe = new Subscribe()
+    // subscribe.name = name
+    // subscribe.nodes = subscribeNodes
+    // subscribe.user = user
+    // // console.log(subscribe)
+    // await subscribeRepository.save(subscribe)
     // let nodeTest = await nodeRepository.find({subscribe: subscribe})
     // console.log(nodeTest)
-    // subscribeRepository.save({
-    //   name: name,
-    //   nodes: subscribeNodes,
-    //   user: user
-    // })
+    subscribeRepository.save({
+      name: name,
+      nodes: subscribeNodes,
+      user: user
+    })
   }
   return {
     TF: true,

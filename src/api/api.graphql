@@ -3,6 +3,7 @@ enum nodeType {
   SSR,
   V2RAY
 }
+
 input SSR {
   title: String!
   host: String!
@@ -15,16 +16,25 @@ input SSR {
   port: Int!
   password: String!
 }
+
+type Subscribe {
+  name: String
+  nodesList: [SSR]
+  urlKey: String
+}
+
 type User {
   id: ID!
   username: String!
   encryptedPassword: String
 }
+
 type loginUser {
   id: ID!
   username: String!
   jwt: String
 }
+
 type Code {
   id: ID!
   code: Int
@@ -38,6 +48,9 @@ type Message {
 type Query {
   users: [User]
   jwt: loginUser
+  # Todo
+  nodesList: [SSR] 
+  SubscribeList: [Subscribe]
 }
 
 type Mutation {
@@ -45,6 +58,10 @@ type Mutation {
     signup(username: String!, password: String!): Message!
     addNode(type: nodeType!, nodeInfo: SSR! ): Message!
     createSubscribe(nodes: [Int], name: String!): Message!
+    # Todo
+    modifyNode(nodeID: Int, nodeInfo: SSR): Message!
+    modifySubscribe(id:Int, name: String, nodes: [Int]): Message!
+    getSubscribe(urlKey: String!): String!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }
