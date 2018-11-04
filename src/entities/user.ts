@@ -10,7 +10,8 @@ import { Subscribe } from "./subscribe";
 
 @Entity("user")
 export class User {
-  @PrimaryGeneratedColumn() id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({
     length: "20"

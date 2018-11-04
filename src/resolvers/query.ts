@@ -1,20 +1,22 @@
 import { User } from "../entities/user"
+import { Node } from "../entities/node"
+import { Subscribe } from "../entities/subscribe"
 import * as R from "ramda"
 import { ensureUser } from "../util/authentication"
 
-export async function users(root, params, ctx) {
-  // test
-
-  // 
-  console.log(typeof (ctx), "==================")
-  const repository = ctx.db.getRepository(User)
-  const users = await repository.find()
-  console.log(users, "?????????")
-  return users
-  // return R.compose(R.pick(["id","username"]))(users)
-}
-export async function jwt(_obj, { }, { db, jwt }) {
+export async function nodesList(_obj, { }, { db, jwt}) {
   const user = await ensureUser(db, jwt)
-  console.log(user)
-  return R.compose(R.merge({ jwt: jwt }), R.pick(["id", "username"]))(user)
+  const repository = db.getRepository(Node)
+  let nodes = await repository.find({user: user})
+  console.log(nodes)
+  return nodes
+}
+
+export async function subscribeList(_obj, { }, { db, jwt}) {
+  const user = await ensureUser(db, jwt)
+  const repository = db.getRepository(Subscribe)
+  let subscribeList = await repository.find({user: user})
+  console.log(subscribeList)
+  // Todo
+  return subscribeList
 }

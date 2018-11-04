@@ -12,10 +12,10 @@ import { Node } from "./node";
 import { User } from "./user";
 
 @Entity()
-export class Subscribe{
+export class Subscribe {
 
-  @PrimaryGeneratedColumn() 
-  id: number
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: String

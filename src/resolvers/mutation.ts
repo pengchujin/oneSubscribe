@@ -4,12 +4,13 @@ import { Subscribe } from "../entities/subscribe"
 import * as bcrypt from "bcrypt"
 import * as Jwt from "jsonwebtoken"
 import * as config from "../../config"
+import { generateBase64 } from "../util/generateBase64"
 import { validationError } from "../util/errors"
 import { ensureUser } from "../util/authentication"
 import { from } from "apollo-link";
 let Message = {
-  TF: false,
-  Message: "something wrong"
+  TF: true,
+  Message: "OK"
 }
 // import * as R from "ramda"
 export async function signup(_obj, { username, password }, { db }) {
@@ -129,6 +130,48 @@ export async function createSubscribe(_obj, { nodes, name }, { db, jwt }) {
     Message: "订阅创建成功"
   }
 }
+
+export async function modifyNode(_obj, { nodeID, nodeInfo }, { db, jwt}) {
+  const user = await ensureUser(db, jwt)
+  const nodeRepository = db.getRepository(Node);
+  let node = await nodeRepository.findOne({user: user, id: nodeID })
+  await nodeRepository.update(node, {info: nodeInfo})
+  return Message
+} 
+
+export async function modifySubscribe(_obj, { id, name, nodes }, { db, jwt }){
+  const user = await ensureUser(db, jwt)
+  const subscribeRepository = db.getRepository(Subscribe)
+  const nodeRepository = db.getRepository(Node);
+  let subscribe = await subscribeRepository.findOne({user: user, id: id})
+  console.log(subscribe)
+  let subscribeNodes = []
+  for (let node of nodes) {
+    let subscribeNode =  await nodeRepository.findOne({user: user, id: node})    
+    subscribeNodes.push(subscribeNode)
+  }
+  subscribe.nodes = subscribeNodes
+  subscribe.name = name
+  await subscribeRepository.save(subscribe)
+  return Message
+}
+
+export async function getSubscribe(_obj, { urlKey }, { db, jwt }) {
+  const subscribeRepository = db.getRepository(Subscribe)
+  let subscribe = await subscribeRepository.findOne({id: urlKey})
+  let nodes = subscribe.nodes
+  return generateBase64(nodes)
+}
+
+export async function getAllNodes(_obj, { urlKey }, { db, jwt }){
+  const nodeRepository = db.getRepository(Node);
+  const userRepository = db.getRepository(User)
+  let user = await userRepository.findOne({id: urlKey})
+  let nodes = await nodeRepository.find({user: user})
+  return generateBase64(nodes)
+}
+
+
 // export async function cPassword(_obj, { username, oPassword, nPassword }, { db }) {
 //   let Result = false;
 //   let Message = '修改失败'

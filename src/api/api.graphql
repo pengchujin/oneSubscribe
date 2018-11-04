@@ -17,16 +17,36 @@ input SSR {
   password: String!
 }
 
+type NodeInfo {
+  title: String!
+  host: String!
+  method: String!
+  flag: String
+  obfs: String!
+  obfsParam: String!
+  proto: String!
+  protoParam: String!
+  port: Int!
+  password: String!
+}
+
 type Subscribe {
   name: String
-  nodesList: [SSR]
-  urlKey: String
+  nodes: [NodeList]
+  # uuid as the urlKey
+  id: String
 }
 
 type User {
   id: ID!
   username: String!
   encryptedPassword: String
+}
+
+type NodeList {
+  id: Int
+  type: String,
+  info: NodeInfo
 }
 
 type loginUser {
@@ -49,8 +69,8 @@ type Query {
   users: [User]
   jwt: loginUser
   # Todo
-  nodesList: [SSR] 
-  SubscribeList: [Subscribe]
+  nodesList: [NodeList] 
+  subscribeList: [Subscribe]
 }
 
 type Mutation {
@@ -60,8 +80,9 @@ type Mutation {
     createSubscribe(nodes: [Int], name: String!): Message!
     # Todo
     modifyNode(nodeID: Int, nodeInfo: SSR): Message!
-    modifySubscribe(id:Int, name: String, nodes: [Int]): Message!
+    modifySubscribe(id: String, name: String, nodes: [Int]): Message!
     getSubscribe(urlKey: String!): String!
+    getAllNodes(urlKey: String!): String!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }
