@@ -9,24 +9,31 @@ import { validationError } from "../util/errors"
 import { ensureUser } from "../util/authentication"
 import { from } from "apollo-link";
 let Message = {
-  TF: true,
+  TF: '',
   Message: "OK"
 }
 // import * as R from "ramda"
 export async function signup(_obj, { username, password }, { db }) {
   console.log('sign Uping')
   const repository = db.getRepository(User);
+  
   const hash = bcrypt.hashSync(password, config.SALT_ROUNDS);
   let b = {
     encryptedPassword: hash,
     username: username
   }
-  await repository.save(b);
-  const userSaved = await repository.findOne({ username: username })
-  let TF = bcrypt.compareSync(password, userSaved.encryptedPassword)
-  Message.TF = TF
-  Message.Message = "OK"
-  return Message
+  try {
+    await repository.save(b)
+  } catch(err) {
+    return {
+      TF: 'error',
+      Message: '注册失败，邮箱已被注册'
+     }
+  }
+  return {
+    TF: 'success',
+    Message: '注册成功请登录'
+  }
 }
 
 function authenticate(user, password) {
@@ -87,7 +94,7 @@ export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
   })
   await nodeRepository.save(node)
   return {
-    TF: true,
+    TF: 'success',
     Message: "添加节点成功"
   }
 }
@@ -126,7 +133,7 @@ export async function createSubscribe(_obj, { nodes, name }, { db, jwt }) {
     })
   }
   return {
-    TF: true,
+    TF: 'success',
     Message: "订阅创建成功"
   }
 }

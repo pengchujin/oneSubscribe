@@ -18,6 +18,7 @@ const bootstrap = async () => {
     const app = new Koa()
     const db = await createConnection();
     app.use(bodyParser())
+    app.use(cors())
     const router = new Router()
     app.use(mount('/graphql', graphqlHTTP(req => {
       return {
@@ -35,7 +36,7 @@ const bootstrap = async () => {
     }),)
     app.use(router.routes())
     app.use(router.allowedMethods())
-    app.listen(3000)
+    app.listen(3001)
 }
 
 bootstrap()

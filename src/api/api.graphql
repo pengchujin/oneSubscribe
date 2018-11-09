@@ -61,7 +61,7 @@ type Code {
 }
 
 type Message {
-  TF: Boolean!
+  TF: String
   Message: String
 }
 
