@@ -47,23 +47,6 @@ function authenticate(user, password) {
 export async function signin(_obj, { username, password }, { db }) {
   let a = { jwt: String, id: Number, username: String }
   const repository = db.getRepository(User);
-  // 
-  const subscribeRepository = db.getRepository(Subscribe)
-  let subscribe = await subscribeRepository.findOne({name: "He3"})
-  const nodes = await db
-    .getRepository(Node)
-    .createQueryBuilder("node")
-    .where("node.id = :id", {id: 3})
-    .leftJoinAndSelect("node.subscribes", "subcribe")
-    .getMany();
-  console.log(nodes)
-  // const nodeRepository = db.getRepository(Node);
-  // // const subscribeRepository = db.getRepository(Subscribe)
-  // // let subscribe = await subscribeRepository.findOne({name: "He3"})
-  // console.log(subscribe)
-  // let nodeTest = await nodeRepository.find({subscribes: subscribe})
-  // console.log(nodeTest)
-  // 
   const userSaved = await repository.findOne({ username: username })
   let TF = authenticate(userSaved, password)
   if (TF) {
