@@ -5,9 +5,12 @@ export function generateBase64(nodes){
   }
   let servers = ''
   for (let i in a) {
-    if(a[i].obfs == "none") {
+    if(a[i].obfs == "none" || a[i].obfs == "") {
       a[i].obfs = 'plain'
     } 
+    if(a[i].proto == "none" || a[i].obfs == "") {
+      a[i].proto = 'plain'
+    }
     let remarks = Buffer.from(a[i].title).toString('base64')
     let base64Pw = Buffer.from(a[i].password).toString('base64')
     let group =  Buffer.from("ONEISALL").toString('base64')

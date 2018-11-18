@@ -68,7 +68,7 @@ export async function signin(_obj, { username, password }, { db }) {
 
 export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
   const user = await ensureUser(db, jwt)
-  console.log(user, nodeInfo)
+  console.log(user, nodeInfo, nodeInfo.title)
   const nodeRepository = db.getRepository(Node);
   const node = nodeRepository.create({
     type: type,
@@ -78,7 +78,7 @@ export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
   await nodeRepository.save(node)
   return {
     TF: 'success',
-    Message: "添加节点成功"
+    Message: `节点 ${nodeInfo.title} 已添加成功 `
   }
 }
 
