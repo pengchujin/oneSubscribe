@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-koa": "^2.1.0",
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "graphql": "^14.0.2",
     "graphql-playground-html": "^1.6.4",
@@ -19,6 +20,7 @@
     "koa": "^2.6.1",
     "koa-graphql": "^0.7.5",
     "koa-mount": "^4.0.0",
+    "koa-useragent": "^1.2.0",
     "pg": "^7.6.0",
     "ramda": "^0.25.0",
     "ts-node": "^7.0.1",

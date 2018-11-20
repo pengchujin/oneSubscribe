@@ -54,7 +54,7 @@ export async function signin(_obj, { username, password }, { db }) {
       username: username,
       id: userSaved.id
     }
-    const jwt = Jwt.sign(userToken, config.JWT_SECRET, { expiresIn: '1h' })
+    const jwt = Jwt.sign(userToken, config.JWT_SECRET, { expiresIn: '30d' })
     a.jwt = jwt
     a.username = username
     a.id = userSaved.id
