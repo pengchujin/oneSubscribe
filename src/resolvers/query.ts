@@ -7,7 +7,9 @@ import { ensureUser } from "../util/authentication"
 export async function nodesList(_obj, { }, { db, jwt}) {
   const user = await ensureUser(db, jwt)
   const repository = db.getRepository(Node)
-  let nodes = await repository.find({user: user})
+  let nodes = await repository.find({where: {user: user}, order: {
+    id: "DESC"
+  }})
   console.log(nodes)
   return nodes
 }

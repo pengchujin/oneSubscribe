@@ -126,7 +126,10 @@ export async function modifyNode(_obj, { nodeID, nodeInfo }, { db, jwt}) {
   const nodeRepository = db.getRepository(Node);
   let node = await nodeRepository.findOne({user: user, id: nodeID })
   await nodeRepository.update(node, {info: nodeInfo})
-  return Message
+  return {
+    TF: 'success',
+    Message: `节点 ${nodeInfo.title} 已修改 `
+  }
 } 
 
 export async function modifySubscribe(_obj, { id, name, nodes }, { db, jwt }){
