@@ -148,6 +148,17 @@ export async function modifySubscribe(_obj, { id, name, nodes }, { db, jwt }){
   await subscribeRepository.save(subscribe)
   return Message
 }
+export async function deleteNode(_obj, { nodeID }, { db, jwt }) {
+  const user = await ensureUser(db, jwt)
+  const nodeRepository = db.getRepository(Node);
+  let node = await nodeRepository.findOne({user: user, id: nodeID })
+  await nodeRepository.delete(node)
+  return {
+    TF: 'success',
+    Message: `节点 ${node.info.title} 已删除 `
+  }
+}
+
 
 export async function getSubscribe(_obj, { urlKey }, { db, jwt }) {
   const subscribeRepository = db.getRepository(Subscribe)

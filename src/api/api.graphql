@@ -79,6 +79,7 @@ type Mutation {
     addNode(type: nodeType!, nodeInfo: SSR! ): Message!
     createSubscribe(nodes: [Int], name: String!): Message!
     # Todo
+    deleteNode(nodeID: Int): Message!
     modifyNode(nodeID: Int, nodeInfo: SSR): Message!
     modifySubscribe(id: String, name: String, nodes: [Int]): Message!
     getSubscribe(urlKey: String!): String!
