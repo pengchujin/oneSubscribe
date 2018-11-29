@@ -14,5 +14,5 @@ yarn tsc
 sudo docker build . -f Dockerfile -t registry-intl.ap-southeast-1.aliyuncs.com/one_subscribe/subscribe:$1
 sudo docker push registry-intl.ap-southeast-1.aliyuncs.com/one_subscribe/subscribe:$1
 
-git tag -a $1 -m "$1"
-git push origin $1
+# git tag -a $1 -m "$1"
+# git push origin $1
