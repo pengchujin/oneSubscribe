@@ -9,10 +9,10 @@ COPY yarn.lock /code/yarn.lock
 RUN yarn install --production
 
 COPY api/api.graphql /code/api/api.graphql
-COPY configs/prod/ormconfig.json /code/ormconfig.json
+COPY config/ormconfig.json /code/ormconfig.json
 COPY lib/src /code/src
-COPY lib/configs/prod/config.js /code/config.js
-COPY lib/configs/prod/config.js.map /code/config.js.map
+COPY lib/config.js /code/config.js
+COPY lib/config.js.map /code/config.js.map
 
 ENV NODE_ENV production
 EXPOSE 3001
