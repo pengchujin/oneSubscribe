@@ -3,6 +3,7 @@
     "lib": [
       "es5",
       "es6",
+      "dom",
       "esnext.asynciterable",
       "es2017"
     ],
