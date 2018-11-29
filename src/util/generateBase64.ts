@@ -26,7 +26,6 @@ export function generateBase64(nodes){
     let baseSSR = Buffer.from(url).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
     let server = Buffer.from('ssr://' + baseSSR)
     servers = servers + server + '\n'
-    console.log(servers)
   }
   return Buffer.from(servers).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
 }
