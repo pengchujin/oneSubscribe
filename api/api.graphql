@@ -17,17 +17,42 @@ input SSR {
   password: String!
 }
 
+input V2RAY {
+  add: String!,
+  ps: String!,
+  port: String!,
+  aid: String!,
+  host: String!,
+  id: String!,
+  method: String!,
+  net: String!,
+  path: String!,
+  tls: String!,
+  type: String!
+}
+
 type NodeInfo {
-  title: String!
-  host: String!
-  method: String!
-  flag: String
-  obfs: String!
-  obfsParam: String!
-  proto: String!
-  protoParam: String!
-  port: Int!
-  password: String!
+  add: String,
+  ps: String,
+  port: String,
+  aid: String,
+  # host: String!,
+  id: String,
+  # method: String!,
+  net: String,
+  path: String,
+  tls: String,
+  type: String,
+  title: String,
+  host: String,
+  method: String,
+  flag: String,
+  obfs: String,
+  obfsParam: String,
+  proto: String,
+  protoParam: String,
+  # port: Int!
+  password: String
 }
 
 type Subscribe {
@@ -77,13 +102,15 @@ type Mutation {
     signin(username: String!, password: String!): loginUser!
     signup(username: String!, password: String!): Message!
     addNode(type: nodeType!, nodeInfo: SSR! ): Message!
+    addV2rayNode(type: nodeType!, nodeInfo: V2RAY! ): Message!
     createSubscribe(nodes: [Int], name: String!): Message!
     # Todo
     deleteNode(nodeID: Int): Message!
     modifyNode(nodeID: Int, nodeInfo: SSR): Message!
+    modifyV2rayNode(nodeID: Int, nodeInfo: V2RAY): Message!
     modifySubscribe(id: String, name: String, nodes: [Int]): Message!
-    getSubscribe(urlKey: String!): String!
-    getAllNodes(urlKey: String!): String!
+    getSubscribe(urlKey: String!,  client: String): String!
+    getAllNodes(urlKey: String!, client: String): String!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }

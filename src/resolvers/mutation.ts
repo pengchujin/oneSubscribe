@@ -80,6 +80,21 @@ export async function addNode(_obj, { type, nodeInfo }, { db, jwt }) {
   }
 }
 
+export async function addV2rayNode(_obj, { type, nodeInfo }, { db, jwt }) {
+  const user = await ensureUser(db, jwt)
+  const nodeRepository = db.getRepository(Node);
+  const node = nodeRepository.create({
+    type: type,
+    info: nodeInfo,
+    user: user
+  })
+  await nodeRepository.save(node)
+  return {
+    TF: 'success',
+    Message: `节点 ${nodeInfo.title} 已添加成功 `
+  }
+}
+
 export async function createSubscribe(_obj, { nodes, name }, { db, jwt }) {
   const user = await ensureUser(db, jwt)
   const nodeRepository = db.getRepository(Node);
@@ -120,6 +135,17 @@ export async function modifyNode(_obj, { nodeID, nodeInfo }, { db, jwt}) {
   }
 } 
 
+export async function modifyV2rayNode(_obj, { nodeID, nodeInfo }, { db, jwt}) {
+  const user = await ensureUser(db, jwt)
+  const nodeRepository = db.getRepository(Node);
+  let node = await nodeRepository.findOne({user: user, id: nodeID })
+  await nodeRepository.update(node, {info: nodeInfo})
+  return {
+    TF: 'success',
+    Message: `节点 ${nodeInfo.ps} 已修改 `
+  }
+}
+
 export async function modifySubscribe(_obj, { id, name, nodes }, { db, jwt }){
   const user = await ensureUser(db, jwt)
   const subscribeRepository = db.getRepository(Subscribe)
@@ -147,17 +173,17 @@ export async function deleteNode(_obj, { nodeID }, { db, jwt }) {
 }
 
 
-export async function getSubscribe(_obj, { urlKey }, { db, jwt }) {
+export async function getSubscribe(_obj, { urlKey,  client}, { db, jwt }) {
   const subscribeRepository = db.getRepository(Subscribe)
   let subscribe = await subscribeRepository.findOne({id: urlKey})
   let nodes = subscribe.nodes
-  return generateBase64(nodes)
+  return generateBase64(nodes, client)
 }
 
-export async function getAllNodes(_obj, { urlKey }, { db, jwt }){
-  const nodeRepository = db.getRepository(Node);
-  const userRepository = db.getRepository(User)
+export async function getAllNodes(_obj, { urlKey, client },ctx){
+  const nodeRepository = ctx.db.getRepository(Node);
+  const userRepository = ctx.db.getRepository(User)
   let user = await userRepository.findOne({id: urlKey})
   let nodes = await nodeRepository.find({user: user})
-  return generateBase64(nodes)
+  return generateBase64(nodes, client)
 }

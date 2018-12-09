@@ -5,7 +5,6 @@ import * as Router from 'koa-router'
 const mount = require('koa-mount');
 import routers from './util/routers'
 const userAgent = require('koa-useragent')
-
 import * as graphqlHTTP from 'koa-graphql';
 import { createConnection } from "typeorm"
 import { schema } from './schema';
@@ -19,13 +18,14 @@ const bootstrap = async () => {
     app.use(cors())
     app.use(userAgent)
     const router = new Router()
-    app.use(mount('/graphql', graphqlHTTP(req => {
+    app.use(mount('/graphql', graphqlHTTP((ctx, next) => {
       return {
         schema,
         context: {
           db: db,
           graphiql: true,
-          jwt: req.headers.authorization,
+          ctx: ctx,
+          jwt: ctx.req.headers.authorization,
         }
       }
     })))

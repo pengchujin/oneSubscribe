@@ -1,16 +1,5 @@
-import { v2rayAndroid } from './ v2rayAndroid'
-import { v2rayIOS } from './v2rayIOS'
-export function generateBase64(nodes, client){
+export function generateBase64(nodes){
   let a = []
-  let v2rayServers = ''
-  // android
-  if(client == 'Android') {
-    v2rayServers = v2rayAndroid(nodes)
-  } 
-  // iOS
-  else {
-    v2rayServers = v2rayIOS(nodes)
-  }
   let ssrServers = ''
   for (let i in a) {
     let proto = ''
@@ -35,5 +24,5 @@ export function generateBase64(nodes, client){
     let server = Buffer.from('ssr://' + baseSSR)
     ssrServers = ssrServers + server + '\n'
   }
-  return Buffer.from(v2rayServers + ssrServers).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
+  return Buffer.from(ssrServers).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
 }
