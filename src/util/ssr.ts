@@ -1,6 +1,11 @@
-export function generateBase64(nodes){
+export function ssr(nodes){
   let a = []
   let ssrServers = ''
+  for (let i of nodes) {
+    if(i.type == 'SSR') {
+      a.push(i.info)
+    }
+  }
   for (let i in a) {
     let proto = ''
     if(a[i].obfs == "none" || a[i].obfs == "") {
@@ -24,5 +29,5 @@ export function generateBase64(nodes){
     let server = Buffer.from('ssr://' + baseSSR)
     ssrServers = ssrServers + server + '\n'
   }
-  return Buffer.from(ssrServers).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
+  return ssrServers
 }
