@@ -91,7 +91,7 @@ export async function addV2rayNode(_obj, { type, nodeInfo }, { db, jwt }) {
   await nodeRepository.save(node)
   return {
     TF: 'success',
-    Message: `节点 ${nodeInfo.title} 已添加成功 `
+    Message: `节点 ${nodeInfo.ps} 已添加成功 `
   }
 }
 
@@ -166,9 +166,15 @@ export async function deleteNode(_obj, { nodeID }, { db, jwt }) {
   const nodeRepository = db.getRepository(Node);
   let node = await nodeRepository.findOne({user: user, id: nodeID })
   await nodeRepository.delete(node)
+  let info = ''
+  if(!node.info.title){
+    info = node.info.ps
+  } else {
+    info = node.info.title
+  }
   return {
     TF: 'success',
-    Message: `节点 ${node.info.title} 已删除 `
+    Message: `节点 ${info} 已删除 `
   }
 }
 

@@ -14,5 +14,5 @@ export function generateBase64(nodes, client){
     v2rayServers = v2rayIOS(nodes)
   }
   ssrServers = ssr(nodes)
-  return Buffer.from(v2rayServers + ssrServers).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '')
+  return Buffer.from(v2rayServers + ssrServers).toString('base64')
 }
