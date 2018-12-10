@@ -16,7 +16,7 @@ export function v2rayIOS(nodes) {
       node.info.tls == 'tls' ? tls = `&tls=1` : ''
       let query = remarks + path + obfs + tls
       let baseV2ray =  Buffer.from(v2rayBase).toString('base64')
-      let server = 'vmess://' + baseV2ray + '?' + query
+      let server = Buffer.from('vmess://' + baseV2ray + '?' + query)
       servers = servers + server + '\n'
     }
   }
