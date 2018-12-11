@@ -110,7 +110,7 @@ type Mutation {
     modifyV2rayNode(nodeID: Int, nodeInfo: V2RAY): Message!
     modifySubscribe(id: String, name: String, nodes: [Int]): Message!
     getSubscribe(urlKey: String!,  client: String): String!
-    getAllNodes(urlKey: String!, client: String): String!
+    getAllNodes(urlKey: String!, client: String, type: nodeType): String!
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }

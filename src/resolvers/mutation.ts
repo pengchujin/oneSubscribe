@@ -186,10 +186,15 @@ export async function getSubscribe(_obj, { urlKey,  client}, { db, jwt }) {
   return generateBase64(nodes, client)
 }
 
-export async function getAllNodes(_obj, { urlKey, client },ctx){
+export async function getAllNodes(_obj, { urlKey, client, type },ctx){
   const nodeRepository = ctx.db.getRepository(Node);
   const userRepository = ctx.db.getRepository(User)
   let user = await userRepository.findOne({id: urlKey})
-  let nodes = await nodeRepository.find({user: user})
+  let nodes = []
+  if(!type) {
+    nodes = await nodeRepository.find({user: user})
+  } else {
+    nodes = await nodeRepository.find({user: user, type: type})
+  }
   return generateBase64(nodes, client)
 }

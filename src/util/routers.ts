@@ -16,4 +16,28 @@ routers.get('/allnodes/:uuid', async (ctx, next) => {
   ctx.body = response.data.data.getAllNodes + ''
 })
 
+routers.get('/v2ray/:uuid', async (ctx, next) => {
+  let client = ctx.userAgent.platform
+  let params = ctx.params.uuid
+  let response = await axios.post(url, {
+    query: `
+    mutation{ getAllNodes(urlKey: "${params}", client: "${client}", type: V2RAY)}
+      `
+  })
+  ctx.body = response.data.data.getAllNodes + ''
+})
+
+routers.get('/ssr/:uuid', async (ctx, next) => {
+  let client = ctx.userAgent.platform
+  let params = ctx.params.uuid
+  let response = await axios.post(url, {
+    query: `
+    mutation{ getAllNodes(urlKey: "${params}", client: "${client}", type: SSR)}
+      `
+  })
+  ctx.body = response.data.data.getAllNodes + ''
+})
+
+
+
 export default routers
