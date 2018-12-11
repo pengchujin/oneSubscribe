@@ -3,7 +3,7 @@ export function v2rayAndroid(nodes) {
   for(let node of nodes) {
     if(node.type == 'V2RAY') {
       node.info.v = "2"
-      node.info.path = node.info.path.replace(/\//, '')
+      // node.info.path = node.info.path.replace(/\//, '')
       delete node.info.method
       let baseV2ray =  Buffer.from(JSON.stringify(node.info)).toString('base64')
       let server = Buffer.from('vmess://' + baseV2ray)
