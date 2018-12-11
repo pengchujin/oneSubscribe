@@ -10,7 +10,7 @@ export function v2rayIOS(nodes) {
       let obfs = ''
       let tls = ''
       !node.info.ps ? remarks = 'remarks=oneSubscribe' : remarks = `remarks=${node.info.ps}`
-      !node.info.path ? '' : path = `&path=/${node.info.path}`
+      !node.info.path ? '' : path = `&path=${node.info.path}`
       node.info.net == 'ws' ? obfs = `&obfs=websocket` : ''
       node.info.net == 'h2' ? obfs = `&obfs=http` : ''
       node.info.tls == 'tls' ? tls = `&tls=1` : ''
