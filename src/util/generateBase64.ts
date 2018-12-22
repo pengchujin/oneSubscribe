@@ -6,7 +6,7 @@ export function generateBase64(nodes, client){
   let v2rayServers = ''
   let ssrServers = ''
   // android
-  if(client == 'Android') {
+  if(client == 'Android' || client == 'Curl') {
     v2rayServers = v2rayAndroid(nodes)
   } 
   // iOS
