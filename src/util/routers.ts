@@ -50,7 +50,7 @@ routers.get('/ClashX/:uuid', async (ctx, next) => {
       `
   })
   try {
-    var doc = yaml.safeLoad(fs.readFileSync(__dirname +'./clash.yml', 'utf8'));
+    var doc = yaml.safeLoad(fs.readFileSync(__dirname +'/clash.yml', 'utf8'));
   } catch (e) {
     console.log(e);
   }
