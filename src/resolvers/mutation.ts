@@ -198,3 +198,13 @@ export async function getAllNodes(_obj, { urlKey, client, type },ctx){
   }
   return generateBase64(nodes, client)
 }
+
+export async function getClashX(_obj, { urlKey },ctx) {
+  const repository = ctx.db.getRepository(Node)
+  const userRepository = ctx.db.getRepository(User)
+  let user = await userRepository.findOne({id: urlKey})
+  let nodes = await repository.find({where: {user: user}, order: {
+    id: "DESC"
+  }})
+  return nodes
+}

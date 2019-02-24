@@ -111,6 +111,7 @@ type Mutation {
     modifySubscribe(id: String, name: String, nodes: [Int]): Message!
     getSubscribe(urlKey: String!,  client: String): String!
     getAllNodes(urlKey: String!, client: String, type: nodeType): String!
+    getClashX(urlKey: String!): [NodeList]
     # cPassword(username: String!, oPassword: String!, nPassword: String ): Modify
     # dUser(username: String!): Modify!
 }
