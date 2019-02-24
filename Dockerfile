@@ -11,6 +11,7 @@ RUN yarn install --production
 COPY api/api.graphql /code/api/api.graphql
 COPY config/ormconfig.json /code/ormconfig.json
 COPY lib/src /code/src
+COPY config/clash.yml /code/src/util
 COPY lib/config.js /code/config.js
 COPY lib/config.js.map /code/config.js.map
 
